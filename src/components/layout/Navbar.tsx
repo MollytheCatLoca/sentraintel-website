@@ -241,7 +241,7 @@ const Navbar: React.FC = () => {
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/30 to-secondary/30 blur-sm"></div>
                   <Link
                     href="/contact"
-                    className="relative bg-gradient-to-r from-primary to-secondary block text-center px-4 py-3 rounded-lg text-white font-medium transition-all duration-300 flex items-center justify-center space-x-2"
+                    className="relative bg-gradient-to-r from-primary to-secondary  text-center px-4 py-3 rounded-lg text-white font-medium transition-all duration-300 flex items-center justify-center space-x-2"
                     onClick={() => setIsOpen(false)}
                   >
                     <FiLock className="w-4 h-4" />

@@ -1,129 +1,40 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FiChevronRight, FiRadio, FiShield, FiCpu } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiChevronRight, FiRadio, FiShield, FiCpu, FiArrowRight } from 'react-icons/fi';
 import Link from 'next/link';
+import { productCategories } from '@/data/products';
+
+// Constants for easy customization
+const PRODUCTS = {
+  ANIMATION_DURATION: 0.7,
+  SECTION_PADDING: "py-24",
+  ACCENT_COLORS: "from-accent to-secondary",
+  PRIMARY_COLORS: "from-primary to-secondary",
+  HOVER_SCALE: 1.03,
+  CARD_BG: "bg-dark-200/90",
+  CARD_BORDER: "border-gray-800/70",
+  CARD_HOVER_BORDER: "border-gray-700/60"
+};
+
+// Map to get the correct icon component based on the string identifier
+const getIconComponent = (iconName: string) => {
+  switch (iconName) {
+    case 'radio':
+      return <FiRadio className="w-6 h-6" />;
+    case 'shield':
+      return <FiShield className="w-6 h-6" />;
+    case 'cpu':
+      return <FiCpu className="w-6 h-6" />;
+    default:
+      return <FiRadio className="w-6 h-6" />;
+  }
+};
 
 const ProductsSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState(0);
-
-  const productCategories = [
-    {
-      name: "Sentra Route",
-      icon: <FiRadio className="w-6 h-6" />,
-      description: "Advanced Tactical Solutions",
-      color: "from-blue-500 to-blue-700",
-      products: [
-        {
-          name: "Sentra Route X1",
-          description: "Comprehensive solution for identification and advanced analysis of mobile communications across multiple technologies (2G, 3G, 4G, 5G NSA).",
-          features: [
-            "Multi-band and simultaneous analysis",
-            "Secure remote access",
-            "AI for target recognition and classification",
-            "Portable system for tactical use in critical operations"
-          ]
-        },
-        {
-          name: "Sentra Route Tactical",
-          description: "Robust portable equipment designed for rapid deployment in tactical land and air operations, offering precise location and quick operational response.",
-          features: [
-            "High precision geolocation",
-            "Easy transport",
-            "Extended autonomy",
-            "Operable in hostile conditions"
-          ]
-        },
-        {
-          name: "Sentra Route Mobile",
-          description: "Ultra-compact unit specialized for discreet, covert operations and strategic surveillance in urban and rural environments, ensuring maximum discretion.",
-          features: [
-            "Discreet form factor",
-            "Compact design",
-            "High autonomy",
-            "Secure transmissions"
-          ]
-        }
-      ]
-    },
-    {
-      name: "Sentra Shield",
-      icon: <FiShield className="w-6 h-6" />,
-      description: "Protection and Comprehensive Management",
-      color: "from-purple-600 to-purple-800",
-      products: [
-        {
-          name: "Sentra Shield Blocker",
-          description: "Advanced system for selective control and blocking of unauthorized mobile communications in critical areas.",
-          features: [
-            "Selective blocking",
-            "Centralized management",
-            "Automatic monitoring",
-            "Customizable security policies"
-          ]
-        },
-        {
-          name: "Sentra Shield Guardian",
-          description: "Proactive digital and mobile defense solution adaptable to different environments, providing advanced security against digital and physical threats.",
-          features: [
-            "Automated comprehensive defense",
-            "Operational scalability",
-            "Real-time threat detection",
-            "Adaptive security protocols"
-          ]
-        },
-        {
-          name: "Sentra GeoLock",
-          description: "Intelligent geofences for perimeter protection and predictive access control.",
-          features: [
-            "Proactive monitoring",
-            "Automatic alerts",
-            "Integration with surveillance systems",
-            "Advanced behavioral analytics"
-          ]
-        }
-      ]
-    },
-    {
-      name: "Sentra Insight",
-      icon: <FiCpu className="w-6 h-6" />,
-      description: "Intelligence and Predictive Analysis",
-      color: "from-teal-500 to-teal-700",
-      products: [
-        {
-          name: "Sentra Analytics",
-          description: "Strategic platform for deep data analysis for anticipation and effective management of operational risks.",
-          features: [
-            "Predictive analysis",
-            "Real-time visualizations",
-            "Advanced data processing",
-            "Pattern recognition algorithms"
-          ]
-        },
-        {
-          name: "Sentra Track & Trace",
-          description: "Advanced technology for dynamic and predictive tracking, ideal for real-time risk management.",
-          features: [
-            "Precise tracking",
-            "Predictive analysis",
-            "Automation",
-            "Integrated monitoring systems"
-          ]
-        },
-        {
-          name: "Sentra AI Intel",
-          description: "Artificial intelligence platform for automatic and predictive analysis of large volumes of operational data.",
-          features: [
-            "Deep analysis",
-            "Reduction of operational times",
-            "Simple integration",
-            "Advanced machine learning"
-          ]
-        }
-      ]
-    }
-  ];
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const fadeIn = {
     hidden: { opacity: 0 },
@@ -131,39 +42,56 @@ const ProductsSection: React.FC = () => {
   };
 
   const slideIn = {
-    hidden: { opacity: 0, x: 20 },
+    hidden: { opacity: 0, x: 30 },
     visible: { opacity: 1, x: 0 }
   };
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
-    <section className="py-20 bg-dark-100 relative overflow-hidden">
+    <section className={`${PRODUCTS.SECTION_PADDING} bg-dark-100 relative overflow-hidden`}>
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-dark to-transparent" />
       <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-dark to-transparent" />
       <div className="absolute right-0 top-1/4 w-1/3 h-1/3 bg-gradient-radial from-primary/5 to-transparent rounded-full filter blur-3xl" />
+      <div className="absolute left-0 bottom-1/3 w-1/4 h-1/4 bg-gradient-radial from-secondary/5 to-transparent rounded-full filter blur-3xl" />
+      <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5" />
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div 
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          variants={fadeIn}
+          transition={{ duration: PRODUCTS.ANIMATION_DURATION }}
+          variants={fadeUp}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent">
+          <div className="inline-block mb-3 px-4 py-1 rounded-full bg-dark-200/80 backdrop-blur-sm border border-gray-700/30">
+            <span className="text-sm font-medium text-gray-300">Product Suite</span>
+          </div>
+          
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+            <span className={`bg-gradient-to-r ${PRODUCTS.ACCENT_COLORS} bg-clip-text text-transparent`}>
               Our Products
             </span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded mx-auto mb-6" />
-          <p className="text-gray-300 max-w-3xl mx-auto text-lg">
+          
+          <div className="flex items-center justify-center mb-6">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/40"></div>
+            <div className="w-16 h-1 mx-2 bg-gradient-to-r from-primary to-secondary rounded"></div>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-secondary/40"></div>
+          </div>
+          
+          <p className="text-gray-300 max-w-3xl mx-auto text-lg leading-relaxed">
             Discover our comprehensive suite of advanced technological solutions designed to meet the complex challenges of today's security landscape.
           </p>
         </motion.div>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-5 mb-16">
           {productCategories.map((category, index) => (
             <motion.button
               key={index}
@@ -171,82 +99,121 @@ const ProductsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`flex items-center p-4 rounded-lg ${
+              whileHover={{ scale: PRODUCTS.HOVER_SCALE }}
+              whileTap={{ scale: 0.97 }}
+              className={`flex items-center p-5 rounded-xl backdrop-blur-sm border transition-all duration-300 ${
                 activeCategory === index 
-                  ? `bg-gradient-to-r ${category.color} text-white` 
-                  : 'bg-dark-200 hover:bg-dark-300 text-gray-300'
-              } transition-all duration-300`}
+                  ? `bg-gradient-to-r ${category.color} text-white border-white/20 shadow-lg` 
+                  : 'bg-dark-200/80 hover:bg-dark-300/80 text-gray-300 border-gray-800/50 hover:border-gray-700/50'
+              }`}
               onClick={() => setActiveCategory(index)}
             >
-              <div className="w-10 h-10 rounded-full bg-dark-300 bg-opacity-30 flex items-center justify-center mr-3">
-                {category.icon}
+              <div className={`w-12 h-12 rounded-full ${
+                activeCategory === index
+                  ? 'bg-white/20' 
+                  : 'bg-dark-300/80'
+              } flex items-center justify-center mr-4 transition-colors duration-300`}>
+                {getIconComponent(category.iconName)}
               </div>
-              <div>
-                <h3 className="font-semibold">{category.name}</h3>
-                <p className="text-xs opacity-80">{category.description}</p>
+              <div className="text-left">
+                <h3 className="font-semibold text-lg">{category.name}</h3>
+                <p className="text-sm opacity-80">{category.description}</p>
+                {activeCategory === index && (
+                  <div className="h-0.5 w-12 bg-white mt-2 rounded-full"></div>
+                )}
               </div>
             </motion.button>
           ))}
         </div>
 
         {/* Products Grid */}
-        <motion.div
-          key={activeCategory}
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          transition={{ duration: 0.3 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {productCategories[activeCategory].products.map((product, index) => (
-            <motion.div 
-              key={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              variants={slideIn}
-              className="bg-dark-200 rounded-xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300 group"
-            >
-              <div className={`h-2 bg-gradient-to-r ${productCategories[activeCategory].color}`} />
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-white">{product.name}</h3>
-                  <div className="w-10 h-10 rounded-full bg-dark-300 flex items-center justify-center">
-                    {productCategories[activeCategory].icon}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={fadeIn}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {productCategories[activeCategory].products.map((product, index) => (
+              <motion.div 
+                key={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                variants={slideIn}
+                whileHover={{ scale: 1.02, y: -5 }}
+                onHoverStart={() => setHoveredCard(index)}
+                onHoverEnd={() => setHoveredCard(null)}
+                className={`${PRODUCTS.CARD_BG} rounded-xl overflow-hidden border ${PRODUCTS.CARD_BORDER} hover:${PRODUCTS.CARD_HOVER_BORDER} transition-all duration-300 group backdrop-blur-sm shadow-lg`}
+              >
+                <div className={`h-2 bg-gradient-to-r ${productCategories[activeCategory].color}`} />
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-5">
+                    <h3 className="text-xl font-bold text-white">{product.name}</h3>
+                    <div className={`w-10 h-10 rounded-full ${
+                      hoveredCard === index 
+                        ? `bg-gradient-to-r ${productCategories[activeCategory].color} text-white` 
+                        : 'bg-dark-300/80 text-gray-400'
+                      } flex items-center justify-center transition-all duration-300`}>
+                      {getIconComponent(productCategories[activeCategory].iconName)}
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-400 mb-6 min-h-[80px]">{product.description}</p>
+                  
+                  <div className="bg-dark-300/50 rounded-lg p-4 mb-6 border border-gray-800/40">
+                    <h4 className="text-white text-sm font-medium mb-3 flex items-center">
+                      <span>Key Features</span>
+                      <div className="h-px flex-grow bg-gradient-to-r from-transparent to-gray-700 ml-2"></div>
+                    </h4>
+                    <div className="space-y-3">
+                      {product.features.map((feature, fidx) => (
+                        <div key={fidx} className="flex items-start">
+                          <FiChevronRight className={`mt-1 flex-shrink-0 ${
+                            hoveredCard === index ? 'text-white' : 'text-accent'
+                          } transition-colors duration-300`} />
+                          <span className="ml-2 text-gray-300 text-sm">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-gray-800/50 flex justify-between items-center">
+                    <Link 
+                      href={`/products/${product.slug || product.name.toLowerCase().replace(/\s+/g, '-')}`} 
+                      className="inline-flex items-center text-accent group-hover:text-white transition-colors duration-300"
+                    >
+                      Learn more 
+                      <FiChevronRight className="ml-1 group-hover:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                    
+                    <span className="text-xs text-gray-500">
+                      {productCategories[activeCategory].name}
+                    </span>
                   </div>
                 </div>
-                <p className="text-gray-400 mb-6">{product.description}</p>
-                <div className="space-y-3">
-                  {product.features.map((feature, fidx) => (
-                    <div key={fidx} className="flex items-start">
-                      <FiChevronRight className="text-accent mt-1 flex-shrink-0" />
-                      <span className="ml-2 text-gray-300 text-sm">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-6 pt-6 border-t border-gray-800">
-                  <Link href={`/products/${product.name.toLowerCase().replace(/\s+/g, '-')}`} className="inline-flex items-center text-accent group-hover:text-white transition-colors duration-300">
-                    Learn more <FiChevronRight className="ml-1" />
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-12 text-center"
+          className="mt-16 text-center"
         >
           <Link 
             href="/products" 
-            className="inline-flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-white font-medium hover:shadow-glow transition-all duration-300"
+            className="inline-flex items-center px-8 py-4 rounded-lg bg-gradient-to-r from-primary to-secondary text-white font-medium hover:shadow-lg transition-all duration-300 group"
           >
-            View All Products <FiChevronRight className="ml-2" />
+            <span>View All Products</span>
+            <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
         </motion.div>
       </div>
