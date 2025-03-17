@@ -43,7 +43,7 @@ export const productCategories: ProductCategory[] = [
     products: [
       {
         name: "Sentra Route X1",
-        description: "Advanced router solution for selective routing of mobile communications across multiple technologies without disrupting ongoing network activities.",
+        description: "Advanced RF control system for selective mobile communication management, preventing unauthorized cell phone usage in secure environments.",
         slug: "sentra-route-x1",
         image: "/images/sentra-route-x1.jpg",
         badge: {
@@ -90,7 +90,7 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "Sentra IMSI Catcher",
-        description: "Robust IMSI and IMEI capturing solution for cellular networks, offering comprehensive mobile signal analysis and real-time device localization.",
+        description: "Mobile signal interception and RF control technology for secure environments, preventing unauthorized cellular activity.Real-time monitoring",
         slug: "sentra-route-mobile",
         image: "/images/sentra-imsi-catcher.jpg",
         badge: {
