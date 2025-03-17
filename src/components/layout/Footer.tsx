@@ -84,8 +84,12 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center space-x-3">
                 <FiPhone className="text-accent" />
-                <span className="text-gray-400">+1 (888) SENTRA-1</span>
+                <span className="text-gray-400">+1 (646) 329 4054</span>
               </li>
+              <li className="flex items-center space-x-3">
+              <FiGlobe className="text-accent" />
+              <span className="text-gray-400">358 8th Street Apt 301, Manhattan, NY</span>
+            </li>
               <li className="flex items-center space-x-3">
                 <FiGlobe className="text-accent" />
                 <span className="text-gray-400">United States</span>
@@ -97,13 +101,13 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-800 mt-10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © {currentYear} SentraIntel. All rights reserved.
+              ©2024  SentraIntel. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <Link href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+              <Link href="/" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
+              <Link href="/" className="text-gray-400 hover:text-white text-sm transition-colors duration-200">
                 Terms of Service
               </Link>
             </div>

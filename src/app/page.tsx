@@ -12,12 +12,12 @@ export default function Home() {
   return (
     <MainLayout>
       <HeroSection />
-      <AboutSection />
+     
       <SolutionsSection />
       <ProductsSection />
-      <TechnologySection />
+      
       <CTASection />
-      <ContactSection />
+      
     </MainLayout>
   );
 }

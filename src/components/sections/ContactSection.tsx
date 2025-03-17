@@ -360,8 +360,8 @@ const ContactSection: React.FC = () => {
                     <FiPhone className="mr-2 text-accent/70" /> Phone
                   </p>
                   <div className="flex items-center">
-                    <a href="tel:+18888367872" className="text-white hover:text-accent transition-colors duration-300 ml-5">
-                      +1 (888) SENTRA-1
+                    <a href="tel:+16463294054" className="text-white hover:text-accent transition-colors duration-300 ml-5">
+                      +1 (646) 329 4054
                     </a>
                   </div>
                 </div>
@@ -370,7 +370,7 @@ const ContactSection: React.FC = () => {
                   <p className="text-gray-300 font-medium mb-1 flex items-center">
                     <FiMapPin className="mr-2 text-accent/70" /> Headquarters
                   </p>
-                  <p className="text-white ml-5">United States, with global support</p>
+                  <p className="text-white ml-5">NY, United States, with global support</p>
                 </div>
               </div>
             </motion.div>
