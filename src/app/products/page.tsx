@@ -89,9 +89,11 @@ export default function ProductsPage() {
       const compatibilityFilters = selectedFilters.compatibility;
       
       const passesTypeFilter = typeFilters.length === 0 || typeFilters.includes(product.badge?.text || '');
+      
+      // Fixed TypeScript error by using optional chaining properly
       const passesCompatibilityFilter = compatibilityFilters.length === 0 || 
         (product.details?.compatibleWith && 
-          compatibilityFilters.some(f => product.details.compatibleWith?.includes(f)));
+          compatibilityFilters.some(f => product.details?.compatibleWith?.includes(f)));
       
       return passesTypeFilter && passesCompatibilityFilter;
     });
